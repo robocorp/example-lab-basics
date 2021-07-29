@@ -5,13 +5,13 @@
 
 *** Settings ***
 Documentation     My first robot!
-Library           RPA.Browser
+Library           RPA.Browser.Selenium
 Task Teardown     Close All Browsers
 
 *** Tasks ***
 Find an Image from Google Images
     Find Image
-
+    
 # ****
 #
 # ## Part 3. Keywords
@@ -36,22 +36,28 @@ Find Image
 #
 # Let's describe it as clearly and simply as possible:
 # 1. Open the browser
-# 2. Enter a search term in the searchbar
-# 3. Click 'Search'
-# 4. Wait for Google to find the images
-# 5. Choose an image they like
+# 2. Accept Google consent
+# 3. Enter a search term in the searchbar
+# 4. Click 'Search'
+# 5. Wait for Google to find the images
+# 6. Choose an image they like
 #
 # We can describe this step-by-step process a human would take to our robot using special keywords provided when we imported the `RPA.Browser` library (like `Open Available Browser` and `Submit Form`). Here's how it looks...
+
+*** Keywords ***
+Accept Google Consent
+    Click Element    xpath://button/div[contains(text(), 'I agree')]
 
 *** Keyword ***
 Find Image
     Open Available Browser    https://images.google.com
+    Run Keyword And Ignore Error    Accept Google Consent
     Input Text    name:q    cute puppy
     Submit Form
-    ${FIRST_IMAGE}=  Set Variable    css:div[data-ri=\"0\"]
+    ${FIRST_IMAGE}=    Set Variable    css:div[data-ri=\"0\"]
     Wait Until Element Is Visible    ${FIRST_IMAGE}
     Screenshot    ${FIRST_IMAGE}
-
+    
 # Our robot is now almost ready. In the next step we will put all of our robot's cells together and actually run it!
-# 
+#
 # <img src="images/robot.svg" width="16" style="vertical-align:text-top">&nbsp; [Part 4: Running Our Robot](./04-running-our-robot.robot)

@@ -5,15 +5,20 @@
 
 *** Settings ***
 Documentation     My first robot!
-Library           RPA.Browser
+Library           RPA.Browser.Selenium
 Task Teardown     Close All Browsers
+
+*** Keywords ***
+Accept Google Consent
+    Click Element    xpath://button/div[contains(text(), 'I agree')]
 
 *** Keyword ***
 Find Image
     Open Available Browser    https://images.google.com
+    Run Keyword And Ignore Error    Accept Google Consent
     Input Text    name:q    cute puppy
     Submit Form
-    ${FIRST_IMAGE}=  Set Variable    css:div[data-ri=\"0\"]
+    ${FIRST_IMAGE}=    Set Variable    css:div[data-ri=\"0\"]
     Wait Until Element Is Visible    ${FIRST_IMAGE}
     # This newly added 'filename' value tells the robot where we want the chosen image to be saved
     Screenshot    ${FIRST_IMAGE}    filename=%{ROBOT_ROOT}${/}output${/}image_from_google.png
@@ -21,7 +26,7 @@ Find Image
 *** Tasks ***
 Find an Image from Google Images
     Find Image
-
+    
 # ****
 #
 # ## Part 5. Moving Our Robot to the Cloud

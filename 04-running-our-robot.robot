@@ -5,22 +5,27 @@
 
 *** Settings ***
 Documentation     My first robot!
-Library           RPA.Browser
+Library           RPA.Browser.Selenium
 Task Teardown     Close All Browsers
+
+*** Keywords ***
+Accept Google Consent
+    Click Element    xpath://button/div[contains(text(), 'I agree')]
 
 *** Keyword ***
 Find Image
     Open Available Browser    https://images.google.com
+    Run Keyword And Ignore Error    Accept Google Consent
     Input Text    name:q    cute puppy
     Submit Form
-    ${FIRST_IMAGE}=  Set Variable    css:div[data-ri=\"0\"]
+    ${FIRST_IMAGE}=    Set Variable    css:div[data-ri=\"0\"]
     Wait Until Element Is Visible    ${FIRST_IMAGE}
     Screenshot    ${FIRST_IMAGE}
 
 *** Tasks ***
 Find an Image from Google Images
     Find Image
-
+    
 # ****
 #
 # ## Part 4. Running Our Robot

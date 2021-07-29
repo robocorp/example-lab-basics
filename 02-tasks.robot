@@ -5,7 +5,7 @@
 
 *** Settings ***
 Documentation     My first robot!
-Library           RPA.Browser
+Library           RPA.Browser.Selenium
 Task Teardown     Close All Browsers
 
 # ****
@@ -27,7 +27,7 @@ Find an Image from Google Images
 *** Tasks ***
 Find an Image from Google Images
     Find Image
-
+    
 # Nice and straightforward! Let's try bringing this `*** Tasks ***` cell with its 'Find an Image from Google Images' *Task* name and the 'Find Image' task keyword to life.
 #
 # Click on the `*** Tasks ***` cell above and then the `▸` button. Try that now.
